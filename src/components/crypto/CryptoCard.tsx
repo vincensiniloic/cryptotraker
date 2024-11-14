@@ -56,7 +56,6 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ name, symbol, currentPrice, pri
       <div>
         <img width={40} height={40} src={img} alt={name} />
         <CryptoName>{name} &nbsp;<CryptoSymbol>{symbol}</CryptoSymbol></CryptoName>
-        
         <CryptoPrice>${currentPrice.toFixed(2)}</CryptoPrice>
       </div>
       <PriceChange isPositive={isPositive}>
