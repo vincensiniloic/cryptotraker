@@ -32,6 +32,7 @@ const StyledCryptoCard = styled(Card)`
 
 const CryptoName = styled.h3`
   margin: 0;
+  font-weight:100;
 `;
 
 const CryptoSymbol = styled.span`
@@ -40,12 +41,12 @@ const CryptoSymbol = styled.span`
 `;
 
 const CryptoPrice = styled.span`
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const PriceChange = styled.span<{ isPositive: boolean }>`
   color: ${props => props.isPositive ? props.theme.colors.positive : props.theme.colors.negative};
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const CryptoCard: React.FC<CryptoCardProps> = ({ name, symbol, currentPrice, priceChangePercentage,img }) => {
