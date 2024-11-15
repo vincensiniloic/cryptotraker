@@ -1,90 +1,15 @@
-import React, { useState, useEffect,useMemo } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import React, { useState, useEffect, useMemo } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { AnimatePresence } from 'framer-motion';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import axios from 'axios';
+
 import Navbar from './components/Navbar';
 import CryptoCard from './components/crypto/CryptoCard';
-import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { AppContainer, Content, PaginationContainer, PaginationButton, AnimatedContent, pageVariants, pageTransition } from './App.styles';
+import { lightTheme, darkTheme } from './theme';
 
-const lightTheme = {
-  colors: {
-    background: '#f5f5f5',
-    text: '#333',
-    primary: '#3498db',
-    secondary: '#7d8380',
-    navBackground: '#fff',
-    cardBackground: '#fff',
-    border: '#ddd',
-    positive: '#2ecc71',
-    negative: '#e74c3c',
-  },
-};
-
-const darkTheme = {
-  colors: {
-    background: '#333',
-    text: '#f5f5f5',
-    primary: '#3498db',
-    secondary: '#7d8380',
-    navBackground: '#222',
-    cardBackground: '#444',
-    border: '#555',
-    positive: '#2ecc71',
-    negative: '#e74c3c',
-  },
-};
-
-const AppContainer = styled.div`
-  background-color: ${props => props.theme.colors.background};
-  min-height: 100vh;
-  color: ${props => props.theme.colors.text};
-`;
-
-const Content = styled.main`
-  
-`;
-
-
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-`;
-
-const PaginationButton = styled.button`
-  background-color: transparent;
-  color: ${props => props.theme.colors.text};
-  border: none;
-  padding: 10px 15px;
-  margin: 0 5px;
-  cursor: pointer;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  svg {
-    font-size: 1.2em;
-  }
-`;
-
-const AnimatedContent = styled(motion.div)`
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-`;
+// Types
 interface Crypto {
   id: string;
   name: string;
@@ -94,6 +19,7 @@ interface Crypto {
   image: string;
 }
 
+// Main App component
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [allCryptos, setAllCryptos] = useState<Crypto[]>([]);
@@ -101,6 +27,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const perPage = 16;
 
+  // Fetch crypto data
   useEffect(() => {
     const fetchAllCryptos = async () => {
       try {
@@ -122,6 +49,7 @@ function App() {
     fetchAllCryptos();
   }, []);
 
+  // Filter and paginate cryptos
   const filteredCryptos = useMemo(() => {
     return allCryptos.filter(crypto =>
       crypto.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -134,6 +62,7 @@ function App() {
     return filteredCryptos.slice(startIndex, startIndex + perPage);
   }, [filteredCryptos, page]);
 
+  // Event handlers
   const handlePrevPage = () => {
     setPage(prevPage => Math.max(prevPage - 1, 1));
   };
@@ -145,18 +74,6 @@ function App() {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setPage(1);
-  };
-
-  const pageVariants = {
-    initial: { opacity: 0 },
-    in: { opacity: 1 },
-    out: { opacity: 0 },
-  };
-
-  const pageTransition = {
-    type: 'tween',
-    ease: 'linear',
-    duration: 0.2,
   };
 
   return (

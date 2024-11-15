@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
+// Types
+interface NavbarProps {
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  isDarkMode: boolean;
+  onSearch: (term: string) => void;
+}
+
+// Styled Components
 const NavbarContainer = styled.nav`
   display: flex;
   justify-content: center;
@@ -22,10 +30,12 @@ const NavContainer = styled.div`
     align-items: stretch;
   }
 `;
+
 const Logo = styled.h1`
   margin: 0;
   color: ${props => props.theme.colors.primary};
   flex: 1;
+  font-weight: 100;
 
   @media (max-width: 768px) {
     margin-bottom: 10px;
@@ -43,6 +53,7 @@ const SearchAndToggleContainer = styled.div`
     justify-content: space-between;
   }
 `;
+
 const SearchInput = styled.input`
   padding: 10px 15px;
   border-radius: 20px;
@@ -82,15 +93,12 @@ const ThemeToggle = styled.button`
     outline: none;
   }
 `;
-interface NavbarProps {
-  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
-  onSearch: (term: string) => void;
-}
 
+// Main Component
 const Navbar: React.FC<NavbarProps> = ({ setIsDarkMode, isDarkMode, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Handlers
   const toggleTheme = () => {
     setIsDarkMode(prevIsDarkMode => !prevIsDarkMode);
   };
@@ -98,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDarkMode, isDarkMode, onSearch }) 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTerm = e.target.value;
     setSearchTerm(newTerm);
-    onSearch(newTerm); // Appeler onSearch à chaque changement
+    onSearch(newTerm);
   };
 
   return (
