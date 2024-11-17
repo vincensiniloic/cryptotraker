@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cryptotracker/static/css/main.9222898c.css",
+    "main.js": "/cryptotracker/static/js/main.07078c6b.js",
+    "static/js/453.59bceb01.chunk.js": "/cryptotracker/static/js/453.59bceb01.chunk.js",
+    "index.html": "/cryptotracker/index.html",
+    "main.9222898c.css.map": "/cryptotracker/static/css/main.9222898c.css.map",
+    "main.07078c6b.js.map": "/cryptotracker/static/js/main.07078c6b.js.map",
+    "453.59bceb01.chunk.js.map": "/cryptotracker/static/js/453.59bceb01.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9222898c.css",
+    "static/js/main.07078c6b.js"
+  ]
+}
