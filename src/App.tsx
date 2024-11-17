@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import Navbar from './components/Navbar';
 import CryptoCard from './components/crypto/CryptoCard';
+import CryptoModal from './components/crypto/CryptoModal';
 import { AppContainer, Content, PaginationContainer, PaginationButton, AnimatedContent, pageVariants, pageTransition } from './App.styles';
 import { lightTheme, darkTheme } from './theme';
 
@@ -25,6 +26,7 @@ function App() {
   const [allCryptos, setAllCryptos] = useState<Crypto[]>([]);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCrypto, setSelectedCrypto] = useState<Crypto | null>(null);
   const perPage = 16;
 
   // Fetch crypto data
@@ -75,7 +77,13 @@ function App() {
     setSearchTerm(term);
     setPage(1);
   };
+  const handleCryptoClick = (crypto: Crypto) => {
+    setSelectedCrypto(crypto);
+  };
 
+  const handleCloseModal = () => {
+    setSelectedCrypto(null);
+  };
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <AppContainer>
@@ -102,6 +110,7 @@ function App() {
                   currentPrice={crypto.current_price}
                   priceChangePercentage={crypto.price_change_percentage_24h}
                   img={crypto.image}
+                  onClick={() => handleCryptoClick(crypto)}
                 />
               ))}
             </AnimatedContent>
@@ -115,6 +124,14 @@ function App() {
             <FaChevronRight />
           </PaginationButton>
         </PaginationContainer>
+        <AnimatePresence>
+          {selectedCrypto && (
+            <CryptoModal
+              crypto={selectedCrypto}
+              onClose={handleCloseModal}
+            />
+          )}
+        </AnimatePresence>
       </AppContainer>
     </ThemeProvider>
   );

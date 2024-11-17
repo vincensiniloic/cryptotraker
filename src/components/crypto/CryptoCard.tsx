@@ -9,6 +9,7 @@ interface CryptoCardProps {
   currentPrice: number;
   priceChangePercentage: number;
   img:string;
+  onClick: () => void;
 }
 
 const StyledCryptoCard = styled(Card)`
@@ -21,7 +22,7 @@ const StyledCryptoCard = styled(Card)`
   height: 150px;
   padding: 20px;
   box-sizing: border-box;
-
+  cursor: pointer;
   ${media.lessThan('medium')`
     max-width: 100%;
     height: auto;
@@ -49,11 +50,11 @@ const PriceChange = styled.span<{ isPositive: boolean }>`
   font-weight: 500;
 `;
 
-const CryptoCard: React.FC<CryptoCardProps> = ({ name, symbol, currentPrice, priceChangePercentage,img }) => {
+const CryptoCard: React.FC<CryptoCardProps> = ({ name, symbol, currentPrice, priceChangePercentage,img,onClick }) => {
   const isPositive = priceChangePercentage >= 0;
 
   return (
-    <StyledCryptoCard>
+    <StyledCryptoCard onClick={onClick}>
       <div>
         <img width={40} height={40} src={img} alt={name} />
         <CryptoName>{name} &nbsp;<CryptoSymbol>{symbol}</CryptoSymbol></CryptoName>
