@@ -37,6 +37,7 @@ const ModalContent = styled(motion.div)`
   width: 90%;
   max-width: 600px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
 `;
 
 const ChartContainer = styled.div`
@@ -72,37 +73,38 @@ const PriceInfo = styled.div<{ isPositive: boolean }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  color: ${props => props.isPositive ? 'green' : 'red'};
+  color: ${props => props.isPositive ? 'green' : '#e74c3c'};
 `;
 
 const Price = styled.p<{ isPositive: boolean }>`
   font-size: 20px;
   font-weight: 100;
   margin: 0;
-  color: ${props => props.isPositive ? 'green' : 'red'};
+  color: ${props => props.isPositive ? 'green' : '#e74c3c'};
 `;
 
 const PriceChange = styled.p<{ isPositive: boolean }>`
-  color: ${props => props.isPositive ? 'green' : 'red'};
+  color: ${props => props.isPositive ? 'green' : '#e74c3c'};
   font-size: 18px;
   margin: 0;
 `;
 
-const CloseButton = styled.button`
-  background-color: ${props => props.theme.buttonBackground};
-  color: ${props => props.theme.buttonText};
+
+const CloseIcon = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  font-size: 24px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  color: #333;
+  transition: color 0.3s;
 
   &:hover {
-    background-color: ${props => props.theme.buttonHoverBackground};
+    color: #e74c3c;
   }
 `;
-
 const CryptoModal: React.FC<CryptoModalProps> = ({ crypto, onClose }) => {
     const [historicalData, setHistoricalData] = useState([]);
   
@@ -136,6 +138,7 @@ const CryptoModal: React.FC<CryptoModalProps> = ({ crypto, onClose }) => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}
           >
+            <CloseIcon onClick={onClose}>&times;</CloseIcon>
             <CryptoInfo>
               <CryptoImage src={crypto.image} alt={crypto.name} />
               <div>
@@ -179,8 +182,6 @@ const CryptoModal: React.FC<CryptoModalProps> = ({ crypto, onClose }) => {
                 </LineChart>
               </ResponsiveContainer>
             </ChartContainer>
-            
-            <CloseButton onClick={onClose}>Close</CloseButton>
           </ModalContent>
         </ModalOverlay>
       );
