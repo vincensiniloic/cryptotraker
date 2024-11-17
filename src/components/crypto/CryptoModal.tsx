@@ -48,6 +48,7 @@ const CryptoInfo = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  color:#000;
 `;
 
 const CryptoImage = styled.img`
@@ -59,6 +60,7 @@ const CryptoImage = styled.img`
 const CryptoName = styled.h2`
   margin: 0;
   font-size: 24px;
+  font-weight: 100;
 `;
 
 const CryptoSymbol = styled.span`
@@ -66,20 +68,22 @@ const CryptoSymbol = styled.span`
   font-size: 18px;
 `;
 
-const PriceInfo = styled.div`
+const PriceInfo = styled.div<{ isPositive: boolean }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  color: ${props => props.isPositive ? 'green' : 'red'};
 `;
 
-const Price = styled.p`
+const Price = styled.p<{ isPositive: boolean }>`
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 100;
   margin: 0;
+  color: ${props => props.isPositive ? 'green' : 'red'};
 `;
 
 const PriceChange = styled.p<{ isPositive: boolean }>`
-  color: ${props => props.isPositive ? props.theme.positive : props.theme.negative};
+  color: ${props => props.isPositive ? 'green' : 'red'};
   font-size: 18px;
   margin: 0;
 `;
@@ -139,8 +143,8 @@ const CryptoModal: React.FC<CryptoModalProps> = ({ crypto, onClose }) => {
               </div>
             </CryptoInfo>
     
-            <PriceInfo>
-              <Price>${crypto.current_price.toLocaleString()}</Price>
+            <PriceInfo isPositive={crypto.price_change_percentage_24h >= 0}>
+              <Price isPositive={crypto.price_change_percentage_24h >= 0}>${crypto.current_price.toLocaleString()}</Price>
               <PriceChange isPositive={crypto.price_change_percentage_24h >= 0}>
                 {crypto.price_change_percentage_24h >= 0 ? '▲' : '▼'} {Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
               </PriceChange>
@@ -165,9 +169,9 @@ const CryptoModal: React.FC<CryptoModalProps> = ({ crypto, onClose }) => {
                     labelStyle={{color: '#333'}}
                   />
                   <Line 
-                    type="monotone" 
+                    type="linear" 
                     dataKey="price" 
-                    stroke="#8884d8" 
+                    stroke="#3498db" 
                     strokeWidth={2}
                     dot={false}
                     activeDot={{r: 8}}
